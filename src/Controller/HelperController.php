@@ -1,19 +1,21 @@
 <?php
-
 namespace App\Controller;
 
+use App\Repository\{RecipeTypeRepository, NutrientTypeRepository};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class HelperController extends AbstractController
+#[Route('/api')]
+class HelperController extends AbstractController
 {
-    #[Route('/helper', name: 'app_helper')]
-    public function index(): JsonResponse
-    {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/HelperController.php',
-        ]);
+    #[Route('/recipe-types', methods: ['GET'])]
+    public function getRecipeTypes(RecipeTypeRepository $repo): JsonResponse {
+        return $this->json($repo->findAll());
+    }
+
+    #[Route('/nutrient-types', methods: ['GET'])]
+    public function getNutrientTypes(NutrientTypeRepository $repo): JsonResponse {
+        return $this->json($repo->findAll());
     }
 }
