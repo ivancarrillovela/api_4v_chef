@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RecipeNutrientRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RecipeNutrientRepository::class)]
 class RecipeNutrient
@@ -18,6 +19,7 @@ class RecipeNutrient
 
     #[ORM\ManyToOne(inversedBy: 'recipeNutrients')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Ignore]
     private ?Recipe $recipe = null;
 
     #[ORM\ManyToOne]

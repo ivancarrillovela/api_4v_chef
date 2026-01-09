@@ -17,6 +17,14 @@ class RecipeService
 
     public function createRecipe(RecipeNewDTO $dto): Recipe
     {
+        if (empty($dto->ingredients) || count($dto->ingredients) === 0) {
+            throw new BadRequestHttpException("La receta debe tener al menos 1 ingrediente.");
+        }
+
+        if (empty($dto->steps) || count($dto->steps) === 0) {
+            throw new BadRequestHttpException("La receta debe tener al menos 1 paso.");
+        }
+
         $type = $this->recipeTypeRepo->find($dto->typeId);
         if (!$type) throw new BadRequestHttpException("Tipo de receta no encontrado");
 
@@ -24,7 +32,6 @@ class RecipeService
         $recipe->setTitle($dto->title);
         $recipe->setNumDiners($dto->numberDiner);
         $recipe->setType($type);
-        // El campo deleted ya es false por defecto en la entidad
 
         foreach ($dto->ingredients as $i) {
             $ing = new Ingredient();

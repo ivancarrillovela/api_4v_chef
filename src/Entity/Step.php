@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\StepRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: StepRepository::class)]
 class Step
@@ -22,6 +23,7 @@ class Step
 
     #[ORM\ManyToOne(inversedBy: 'steps')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Ignore]
     private ?Recipe $recipe = null;
 
     public function getId(): ?int
