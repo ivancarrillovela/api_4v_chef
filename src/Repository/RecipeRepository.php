@@ -16,6 +16,19 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    # Método para buscar recetas activas (sin borrado lógico)
+    public function findActiveRecipes(?int $typeId = null): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.deleted = :deleted')
+            ->setParameter('deleted', false);
+
+        if ($typeId) {
+            $qb->andWhere('r.type = :typeId')->setParameter('typeId', $typeId);
+        }
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Recipe[] Returns an array of Recipe objects
 //     */
